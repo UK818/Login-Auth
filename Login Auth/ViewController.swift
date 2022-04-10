@@ -22,10 +22,11 @@ class ViewController: UIViewController {
 		let emailField = UITextField()
 		emailField.placeholder = "Email Address"
 		emailField.layer.borderWidth = 1
+		emailField.layer.cornerRadius = 10
 		emailField.autocapitalizationType = .none
 		emailField.layer.borderColor = UIColor.black.cgColor
 		emailField.leftViewMode = .always
-		emailField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+		emailField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
 		return emailField
 	}()
 		
@@ -33,10 +34,12 @@ class ViewController: UIViewController {
 		let passwordField = UITextField()
 		passwordField.placeholder = "Password"
 		passwordField.layer.borderWidth = 1
+		passwordField.layer.cornerRadius = 10
 		passwordField.isSecureTextEntry = true
 		passwordField.autocapitalizationType = .none
 		passwordField.layer.borderColor = UIColor.black.cgColor
-		passwordField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+		passwordField.leftViewMode = .always
+		passwordField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
 		return passwordField
 	}()
 	
@@ -45,7 +48,17 @@ class ViewController: UIViewController {
 		button.backgroundColor = .systemGreen
 		button.setTitleColor(.white, for: .normal)
 		button.setTitle("Continue", for: .normal)
+		button.layer.cornerRadius = 20
 		return button
+	}()
+	
+	private let welcomeLabel: UILabel = {
+		let welcomeLabel = UILabel()
+		welcomeLabel.textAlignment = .center
+		welcomeLabel.text = "Welcome"
+		welcomeLabel.textColor = .blue
+		welcomeLabel.font = .systemFont(ofSize: 30, weight: .semibold)
+		return welcomeLabel
 	}()
 	
 	private let signOutButton: UIButton = {
@@ -53,6 +66,7 @@ class ViewController: UIViewController {
 		button.backgroundColor = .systemGreen
 		button.setTitleColor(.white, for: .normal)
 		button.setTitle("Log out", for: .normal)
+		button.layer.cornerRadius = 20
 		return button
 	}()
 
@@ -71,8 +85,19 @@ class ViewController: UIViewController {
 			emailField.isHidden = true
 			passwordField.isHidden = true
 			
+			view.addSubview(welcomeLabel)
 			view.addSubview(signOutButton)
-			signOutButton.frame = CGRect(x: 20, y: 150, width: view.frame.size.width - 40, height: 52)
+			welcomeLabel.frame = CGRect(
+				x: view.frame.origin.x + 20,
+				y: 100,
+				width: view.frame.size.width - 40,
+				height: 40)
+			signOutButton.frame = CGRect(
+				x: 20,
+				y: welcomeLabel.frame.origin.y + welcomeLabel.frame.size.height + 100,
+				width: view.frame.size.width - 40,
+				height: 50
+			)
 			signOutButton.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
 		}
 	}
@@ -105,7 +130,7 @@ class ViewController: UIViewController {
 			x: 20,
 			y: passwordField.frame.origin.y + passwordField.frame.size.height + 10,
 			width: view.frame.size.width - 40,
-			height: 80
+			height: 50
 		)
 	}
 	
@@ -126,6 +151,7 @@ class ViewController: UIViewController {
 			emailField.isHidden = false
 			passwordField.isHidden = false
 			
+			welcomeLabel.removeFromSuperview()
 			signOutButton.removeFromSuperview()
 		}
 		catch {
